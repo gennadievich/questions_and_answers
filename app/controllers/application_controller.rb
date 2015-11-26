@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery with: :exception
   
-  helper_method :login, :logout, :current_user
+  helper_method :login, :logout, :current_user, :check_if_admin
 
   def login(user)
     session[:user_id] = user[:id]
@@ -25,5 +25,11 @@ class ApplicationController < ActionController::Base
   
   def user_signed_in?
     !current_user.nil?
+  end
+  
+  def check_if_admin
+    unless current_user.admin?
+      redirect_to permission_denied_path
+    end
   end
 end

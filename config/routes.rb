@@ -1,9 +1,11 @@
 Rails.application.routes.draw do
 
-  get '/register' => 'users#new',      as: :register
+  
   get '/logout' => 'sessions#destroy', as: :logout
   get '/login'  => 'sessions#index',   as: :login
   post '/login' => 'sessions#create'
+  get '/register' => 'users#new',      as: :register
+  post '/register' => 'users#create'
 
   resources :users
 
@@ -14,6 +16,8 @@ Rails.application.routes.draw do
   end
 
   root 'questions#index'
+  
+  get '/permission_denied' => 'home#permission_denied', as: :permission_denied
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

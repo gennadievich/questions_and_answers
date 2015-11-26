@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  skip_before_action :authenticate_user!, only: [:new, :create]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
   
   def index
@@ -19,7 +20,8 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-      redirect_to @user, notice: 'User was successfully created.'
+      login(@user)
+      redirect_to user_path(@user), notice: 'User was successfully created. Please wait for activation!'
     else
       render :new
     end
