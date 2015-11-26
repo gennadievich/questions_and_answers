@@ -21,7 +21,7 @@ class UsersController < ApplicationController
 
     if @user.save
       login(@user)
-      redirect_to user_path(@user), notice: 'User was successfully created. Please wait for activation!'
+      redirect_to user_path(@user)
     else
       render :new
     end
