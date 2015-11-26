@@ -1,9 +1,10 @@
 class UsersController < ApplicationController
   skip_before_action :authenticate_user!, only: [:new, :create]
+  before_action :check_if_admin, except: [:new, :create]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
   
   def index
-    @users = User.all
+    @users = User.order("created_at desc")
   end
   
   def show
@@ -29,7 +30,7 @@ class UsersController < ApplicationController
   
   def update
     if @user.update(user_params)
-      redirect_to @user, notice: 'User was successfully updated.'
+      redirect_to @user
     else
       render :edit
     end
@@ -37,9 +38,15 @@ class UsersController < ApplicationController
   
   def destroy
     @user.destroy
-    redirect_to users_url, notice: 'User was successfully destroyed.'
+    redirect_to users_url
   end
 
+  def activate
+    user = User.find(params[:id])
+    user.update_column(:active, true)
+    redirect_to :back
+  end
+  
   private
   
     def set_user

@@ -7,7 +7,11 @@ Rails.application.routes.draw do
   get '/register' => 'users#new',      as: :register
   post '/register' => 'users#create'
 
-  resources :users
+  resources :users do
+    member do
+      get 'activate'
+    end
+  end
 
   resources :categories
 
