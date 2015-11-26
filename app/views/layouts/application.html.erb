@@ -8,6 +8,10 @@
 </head>
 <body>
 
+<h1>
+<%= current_user.name if current_user %>
+</h1>
+
 <%= yield %>
 
 </body>
