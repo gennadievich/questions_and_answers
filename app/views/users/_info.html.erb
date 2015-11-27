@@ -1,8 +1,10 @@
-<% if current_user %>
-  <br>
-  <br>
-  <h2>User: <%= current_user.name %></h2>
-  <h5>User status: <%= current_user.status %></h5>
-  <h5>Account status: <%= current_user.active ? "Activated" : "Waiting for activation" %></h5>
-  <%= link_to "Log out", logout_path %>
-<% end %>
+<div class="user-info">
+  <% if current_user %>
+    <br>
+    <br>
+    <h2>User: <%= current_user.name %></h2>
+    <h5>User status: <%= current_user.status %></h5>
+    <h5>Account status: <%= current_user.active ? "Activated" : "Waiting for activation" %></h5>
+    <%= link_to "Log out", logout_path %> 
+  <% end %>
+</div>
