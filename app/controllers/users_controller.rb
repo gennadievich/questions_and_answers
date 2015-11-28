@@ -1,10 +1,12 @@
 class UsersController < ApplicationController
   skip_before_action :authenticate_user!, only: [:register, :create]
+  skip_before_action :check_if_user_active, only: [:register, :create]
   before_action :check_if_admin, except: [:register, :create]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
   
   def index
     @users = User.order("created_at desc")
+    @questions = Question.all
   end
   
   def show

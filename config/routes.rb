@@ -16,6 +16,10 @@ Rails.application.routes.draw do
   resources :categories
 
   resources :questions do
+    collection do
+      get 'answered'
+      get 'not_answered'
+    end
     resources :answers
   end
 

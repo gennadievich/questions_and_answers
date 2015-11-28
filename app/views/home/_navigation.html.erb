@@ -18,3 +18,15 @@
   <br>
   <br>
 <% end %>
+
+<% if current_user && !current_user.admin? %>
+  <div class="col-md-offset-3 col-md-6">
+    <ul class="nav nav-tabs admin">
+      <li class="item"><%= link_to "All Q", questions_path %></li>
+      <li class="item"><%= link_to "Answered", answered_questions_path %></li>
+      <li class="item"><%= link_to "Pending", not_answered_questions_path %></li>
+    </ul>
+  </div>
+  <br>
+  <br>
+<% end %>

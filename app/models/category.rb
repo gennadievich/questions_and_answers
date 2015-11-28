@@ -10,4 +10,8 @@ class Category < ActiveRecord::Base
   def self.categories_names
     all.map(&:name)
   end
+  
+  def has_questions?
+    questions.present?
+  end
 end

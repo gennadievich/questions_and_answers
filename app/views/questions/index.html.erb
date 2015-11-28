@@ -2,27 +2,29 @@
 <%= link_to 'New Question', new_question_path, class: "btn btn-success" if current_user.admin? %>
 
 <table class="table">
-
-  <tbody>
-    <% @categories.each do |category| %>
+  <% @categories.each do |category| %>
+    <% if category.has_questions? %>
       <tr>
-        <% if category.questions.present? %>
-          <td style="font-weight: bold">Category: <%= category.name %></td>
-        <% end %>
-      </tr>  
+        <td class="bold">Category: <%= category.name %></td>
+      </tr>
+    <% end %>
+      
     
-      <% category.questions.each do |question| %>
     
+    <% @questions.each do |question| %>
+      <% if question.category == category %>
         <tr>
-          <td><%= question.body %></td>
-          <% if current_user.admin? %>
-            <td><%= link_to 'Edit', edit_question_path(question) %></td>
-            <td><%= link_to 'Destroy', question, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-          <% end %>
+          <td class="<%= question.answered_by(current_user) ? "success" : "warning" %> width-50"><%= question.body %></td>
+            <% if current_user.admin? %>
+              <td><%= link_to "Edit", edit_question_path(question) %></td>
+              <td><%= link_to "Destroy", question, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+            <% else %>
+              <td class="width-50"><%= question.answered_by(current_user) ? (render partial: "answers/show_quick_answer", locals: {question: question}) : (render partial: "answers/mini_form", locals: {question: question}) %></td>
+            <% end %>
         </tr>
       <% end %>
     <% end %>
-  </tbody>
+  <% end %>
 </table>
 
 <br>

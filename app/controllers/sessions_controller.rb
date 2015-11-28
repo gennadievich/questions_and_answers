@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-  skip_before_action :authenticate_user!
+  skip_before_action :authenticate_user!, :check_if_user_active
   
   def index
     
@@ -10,7 +10,7 @@ class SessionsController < ApplicationController
     
     if @user && @user.authenticate(params[:password])
       login(@user)
-      redirect_to root_path, flash: {success: "Welcome back :)"}
+      redirect_to root_path
     else
       render :index 
     end

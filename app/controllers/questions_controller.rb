@@ -1,12 +1,29 @@
 class QuestionsController < ApplicationController
-  before_action :check_if_user_active
   before_action :set_question, only: [:show, :edit, :update, :destroy]
 
   def index
-    @categories = Category.all
-    @questions = Question.all
+    @questions  = Question.all
+    @categories = @questions.collect { |q| q.category }
+    @categories.uniq!
   end
 
+  def answered
+    @questions  = Question.joins(:answers).where("answers.user_id = #{current_user.id}")
+    @categories = @questions.collect { |q| q.category }
+    @categories.uniq!
+    
+    render :index
+  end
+  
+  def not_answered
+    @answered_questions = Question.joins(:answers).where("answers.user_id = #{current_user.id}")
+    @questions  = Question.all - @answered_questions
+    @categories = @questions.collect { |q| q.category }
+    @categories.uniq!
+    
+    render :index
+  end
+  
   def show
   end
 
@@ -20,15 +37,11 @@ class QuestionsController < ApplicationController
   def create
     @question = Question.new(question_params)
     @question.user = current_user
-        
-    respond_to do |format|
-      if @question.save
-        format.html { redirect_to questions_path }
-        format.json { render :show, status: :created, location: @question }
-      else
-        format.html { render :new }
-        format.json { render json: @question.errors, status: :unprocessable_entity }
-      end
+    
+    if @question.save
+      redirect_to questions_path
+    else
+      render :new
     end
   end
 
@@ -61,4 +74,5 @@ class QuestionsController < ApplicationController
     def question_params
       params.require(:question).permit(:body, :category_id)
     end
+  
 end
