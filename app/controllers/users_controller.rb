@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:new, :create]
-  before_action :check_if_admin, except: [:new, :create]
+  skip_before_action :authenticate_user!, only: [:register, :create]
+  before_action :check_if_admin, except: [:register, :create]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
   
   def index
@@ -10,6 +10,10 @@ class UsersController < ApplicationController
   def show
   end
 
+  def register
+    @user = User.new
+  end
+  
   def new
     @user = User.new
   end
@@ -21,8 +25,13 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-      login(@user)
-      redirect_to user_path(@user)
+      if current_user
+        redirect_to users_path
+      else
+        login(@user)
+        
+        redirect_to root_path
+      end
     else
       render :new
     end
@@ -30,7 +39,7 @@ class UsersController < ApplicationController
   
   def update
     if @user.update(user_params)
-      redirect_to @user
+      redirect_to users_path
     else
       render :edit
     end
@@ -38,12 +47,14 @@ class UsersController < ApplicationController
   
   def destroy
     @user.destroy
-    redirect_to users_url
+    
+    redirect_to users_path
   end
 
   def activate
     user = User.find(params[:id])
     user.update_column(:active, true)
+    
     redirect_to :back
   end
   

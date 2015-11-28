@@ -1,3 +1,4 @@
+<div class="col-md-offset-3 col-md-6">
 <%= form_for(@user) do |f| %>
   <% if @user.errors.any? %>
     <div id="error_explanation">
@@ -12,34 +13,28 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :name %><br>
-    <%= f.text_field :name %>
+    <%= f.text_field :name, placeholder: "Name", class: "form-control width-80", autofocus: true %>
   </div>
   <div class="field">
-    <%= f.label :email %><br>
-    <%= f.text_field :email %>
+    <%= f.text_field :email, placeholder: "Email", class: "form-control width-80" %>
   </div>
   <div class="field">
-    <%= f.label :password %><br>
-    <%= f.password_field :password %>
+    <%= f.password_field :password, placeholder: "Password", class: "form-control width-80" %>
   </div>
   <div>
-    <%= f.label :password_confirmation %><br>
-    <%= f.password_field :password_confirmation %>
+    <%= f.password_field :password_confirmation, placeholder: "Password confirmation", class: "form-control width-80" %>
   </div>
   <div class="field">
-    <%= f.label :role %><br>
-    <%= f.text_field :role %>
+    <%= f.select :role, User::ROLE, {}, {class: "form-control width-80"} %>
+  </div>
+  <div class="form-control width-80">
+    <%= f.check_box :active %> Active
   </div>
   <div class="field">
-    <%= f.label :active %><br>
-    <%= f.check_box :active %>
-  </div>
-  <div class="field">
-    <%= f.label :status %><br>
-    <%= f.text_field :status %>
+    <%= f.select :status, User::STATUS, {}, {class: "form-control width-80"} %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit nil, class: "btn btn-default width-80" %>
   </div>
 <% end %>
+</div>

@@ -1,4 +1,5 @@
 class QuestionsController < ApplicationController
+  before_action :check_if_user_active
   before_action :set_question, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -34,7 +35,7 @@ class QuestionsController < ApplicationController
   def update
     respond_to do |format|
       if @question.update(question_params)
-        format.html { redirect_to @question, notice: 'Question was successfully updated.' }
+        format.html { redirect_to questions_path }
         format.json { render :show, status: :ok, location: @question }
       else
         format.html { render :edit }
@@ -46,7 +47,7 @@ class QuestionsController < ApplicationController
   def destroy
     @question.destroy
     respond_to do |format|
-      format.html { redirect_to questions_url, notice: 'Question was successfully destroyed.' }
+      format.html { redirect_to questions_path }
       format.json { head :no_content }
     end
   end

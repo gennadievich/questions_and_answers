@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   get '/logout' => 'sessions#destroy', as: :logout
   get '/login'  => 'sessions#index',   as: :login
   post '/login' => 'sessions#create'
-  get '/register' => 'users#new',      as: :register
+  get '/register' => 'users#register',      as: :register
   post '/register' => 'users#create'
 
   resources :users do
@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   root 'questions#index'
   
   get '/permission_denied' => 'home#permission_denied', as: :permission_denied
+  get '/wait_for_activation' => 'home#wait_for_activation', as: :wait_for_activation
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

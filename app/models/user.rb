@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   STATUS = ["Newbie", "User", "Trusted", "VIP"]
+  ROLE   = ["user", "admin"]
   
   validates :email, presence: true, uniqueness: true
   
