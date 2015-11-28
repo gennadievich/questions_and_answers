@@ -1,5 +1,6 @@
 class SessionsController < ApplicationController
-  skip_before_action :authenticate_user!, :check_if_user_active
+  skip_before_action :authenticate_user!
+  skip_before_action :check_if_user_active
   
   def index
     
