@@ -6,10 +6,6 @@ class Category < ActiveRecord::Base
   def name=(val)
     write_attribute(:name, val.upcase)
   end
-
-  def self.categories_names
-    all.map(&:name)
-  end
   
   def has_questions?
     questions.present?
