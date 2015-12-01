@@ -35,7 +35,11 @@ class UsersController < ApplicationController
         redirect_to root_path
       end
     else
-      render :new
+      if current_user
+        render :new
+      else
+        redirect_to :back
+      end
     end
   end
   
