@@ -38,6 +38,7 @@ class UsersController < ApplicationController
       if current_user
         render :new
       else
+        flash[:alert] = "Email already has been taken."
         redirect_to :back
       end
     end
